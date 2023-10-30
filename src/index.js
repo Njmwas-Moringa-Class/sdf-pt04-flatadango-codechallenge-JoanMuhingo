@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
             displayAvailableTickets(data);
             availableTickets(data);
             displayFilmMenu(data);
+            displayFilmInfo(data);
+
         })
         .catch(error => {
             console.error("Error fetching data:", error);
@@ -22,12 +24,12 @@ function availableTickets(film) {
 }
 
 function displayAvailableTickets(films) {
-    const infoBox = document.getElementById('showing');
+    const tickets = document.getElementById('ticket-num');
         films.forEach(film => {
             const available = availableTickets(film);
             const ticketsOnSale = document.createElement('p');
             ticketsOnSale.textContent = `Available Tickets: ${available}`;
-            infoBox.appendChild(ticketsOnSale);
+            tickets.appendChild(ticketsOnSale);
         });
     };
 
@@ -48,19 +50,47 @@ function displayFirstFilm(film) {
 
     const availableTicketsCount = availableTickets(film);
     ticketsAvailable.textContent = `Available Tickets: ${availableTicketsCount}`;
-}
+    
+};
+
+displayFirstFilm();
+
 
 function displayFilmMenu(films){
     let filmList = document.getElementById('films');
     filmList.innerHTML ='';
     for (const film of films){
-        filmList.innerHTML += '<li>' + film.title +'</li>';
+        const filmTitles = document.createElement('li');
+        filmTitles.textContent =film.title;
+        filmTitles.addEventListener('click',function () {
+            displayFilmInfo(film);
+        });
+        filmList.appendChild(filmTitles);
     }
  
 }
+function displayFilmInfo(film){
+    const poster = document.getElementById('poster');
+    const filmTitle = document.getElementById('title');
+    const runTime = document.getElementById('runtime');
+    const description = document.getElementById('film-info');
+    const showTime = document.getElementById('showtime');
+    const ticketsAvailable = document.getElementById('ticket-num');
+
+    
+    poster.src= film.poster;
+    filmTitle.textContent = film.title;
+    runTime.textContent = film.runtime;
+    description.textContent = film.description;
+    showTime.textContent = film.showtime;
+
+    const availableTicketsCount = availableTickets(film);
+    ticketsAvailable.textContent = `Available Tickets: ${availableTicketsCount}`;
+
+}
 function buyTicket(){
 const button = document.getElementById('buy-ticket');
-button.addEventListener('click'),function(e){
+button.addEventListener('click',function(e){
     e.preventDefault();
     const ticketsAvailable = document.getElementById('ticket-num');
     const availableTicketsCount = availableTickets(film);
@@ -73,5 +103,5 @@ button.addEventListener('click'),function(e){
 
     }
 
-}
+})
 }
