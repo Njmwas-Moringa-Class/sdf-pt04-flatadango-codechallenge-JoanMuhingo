@@ -4,12 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            const firstFilm = data[0];
-            displayFirstFilm(firstFilm);
+            displayFirstFilm(data[0]);
             displayAvailableTickets(data);
             availableTickets(data);
             displayFilmMenu(data);
-            displayFilmInfo(data);
+            displayFilmInfo(data[0]);
 
         })
         .catch(error => {
@@ -23,15 +22,15 @@ function availableTickets(film) {
     return capacity - ticketsSold;
 }
 
-function displayAvailableTickets(films) {
+function displayAvailableTickets(film) {
     const tickets = document.getElementById('ticket-num');
-        films.forEach(film => {
+        
             const available = availableTickets(film);
             const ticketsOnSale = document.createElement('p');
-            ticketsOnSale.textContent = `Available Tickets: ${available}`;
+            ticketsOnSale.textContent = ` ${available}remaining tickets`;
             tickets.appendChild(ticketsOnSale);
-        });
-    };
+            return available;
+        };
 
 function displayFirstFilm(film) {
     const poster = document.getElementById('poster');
@@ -44,27 +43,28 @@ function displayFirstFilm(film) {
     
     poster.src= film.poster;
     filmTitle.textContent = film.title;
-    runTime.textContent = film.runtime;
+    runTime.textContent = `${film.runtime} minutes`;
     description.textContent = film.description;
     showTime.textContent = film.showtime;
 
-    const availableTicketsCount = availableTickets(film);
-    ticketsAvailable.textContent = `Available Tickets: ${availableTicketsCount}`;
+    const remainingTickets = displayAvailableTickets(film);
+    ticketsAvailable.textContent = ` ${remainingTickets} remaining tickets`;
     
 };
-
-displayFirstFilm();
-
 
 function displayFilmMenu(films){
     let filmList = document.getElementById('films');
     filmList.innerHTML ='';
     for (const film of films){
         const filmTitles = document.createElement('li');
-        filmTitles.textContent =film.title;
-        filmTitles.addEventListener('click',function () {
+        const filmTitleLink =document.createElement('a');
+        filmTitleLink.href = '#';
+        filmTitleLink.textContent =film.title;
+        filmTitles.addEventListener('click',function (e) {
+            e.preventDefault();
             displayFilmInfo(film);
         });
+        filmTitles.appendChild(filmTitleLink);
         filmList.appendChild(filmTitles);
     }
  
@@ -84,24 +84,24 @@ function displayFilmInfo(film){
     description.textContent = film.description;
     showTime.textContent = film.showtime;
 
-    const availableTicketsCount = availableTickets(film);
-    ticketsAvailable.textContent = `Available Tickets: ${availableTicketsCount}`;
+    const remainingTickets = availableTickets(film);
+    ticketsAvailable.textContent = ` ${remainingTickets} remaining tickets`;
 
 }
-function buyTicket(){
-const button = document.getElementById('buy-ticket');
-button.addEventListener('click',function(e){
-    e.preventDefault();
-    const ticketsAvailable = document.getElementById('ticket-num');
-    const availableTicketsCount = availableTickets(film);
-    if( availableTicketsCount <= 0){
-        alert('tickets are sold out');
-    }
-    else{
-    availableTicketsCount--;
-    ticketsAvailable.textContent = `Available Tickets: ${availableTicketsCount}`;
+// function buyTicket(){
+// const button = document.getElementById('buy-ticket');
+// button.addEventListener('click',function(e){
+//     e.preventDefault();
+//     const ticketsAvailable = document.getElementById('ticket-num');
+//     const availableTicketsCount = availableTickets(film);
+//     if( availableTicketsCount <= 0){
+//         alert('tickets are sold out');
+//     }
+//     else{
+//     availableTicketsCount--;
+//     ticketsAvailable.textContent = `Available Tickets: ${availableTicketsCount}`;
 
-    }
+//     }
 
-})
-}
+// })
+// }
