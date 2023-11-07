@@ -88,20 +88,22 @@ function displayFilmInfo(film){
     ticketsAvailable.textContent = ` ${remainingTickets} remaining tickets`;
 
 }
-// function buyTicket(){
-// const button = document.getElementById('buy-ticket');
-// button.addEventListener('click',function(e){
-//     e.preventDefault();
-//     const ticketsAvailable = document.getElementById('ticket-num');
-//     const availableTicketsCount = availableTickets(film);
-//     if( availableTicketsCount <= 0){
-//         alert('tickets are sold out');
-//     }
-//     else{
-//     availableTicketsCount--;
-//     ticketsAvailable.textContent = `Available Tickets: ${availableTicketsCount}`;
+function buyTicket(film){
+const buyButton = document.getElementById('buy-ticket');
+buyButton.addEventListener('click',function(e){
+    e.preventDefault();
+    const ticketsAvailable = document.getElementById('ticket-num');
+    const availableTickets = parseInt(availableTickets.textContent);
+    if( availableTickets <= 0){
+        alert('tickets are sold out');
+    }
+    else{
+    availableTickets--;
+    ticketsAvailable.textContent = `Available Tickets: ${availableTickets}`;
 
-//     }
+    }
 
-// })
-// }
+})
+}
+
+
