@@ -27,7 +27,7 @@ function displayAvailableTickets(film) {
         
             const available = availableTickets(film);
             const ticketsOnSale = document.createElement('p');
-            ticketsOnSale.textContent = ` ${available}remaining tickets`;
+            ticketsOnSale.textContent = ` ${available} remaining tickets`;
             tickets.appendChild(ticketsOnSale);
             return available;
         };
@@ -48,7 +48,7 @@ function displayFirstFilm(film) {
     showTime.textContent = film.showtime;
 
     const remainingTickets = displayAvailableTickets(film);
-    ticketsAvailable.textContent = ` ${remainingTickets} remaining tickets`;
+    ticketsAvailable.textContent = ` ${remainingTickets} available tickets`;
     
 };
 
@@ -99,7 +99,7 @@ buyButton.addEventListener('click',function(e){
     }
     else{
     availableTickets--;
-    ticketsAvailable.textContent = `Available Tickets: ${availableTickets}`;
+    ticketsAvailable.textContent = ` ${availableTickets} remaining tickets`;
 
     }
 
